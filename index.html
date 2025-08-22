@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Salon Service Selection</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 400px;
+      margin: 40px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    h2 {
+      text-align: center;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+    }
+    select, input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 6px;
+      box-sizing: border-box;
+    }
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h2>Select Your Service</h2>
+  <form id="serviceForm">
+    <label for="service">Choose a service:</label>
+    <select id="service" name="service" required>
+      <option value="" disabled selected>Select a service</option>
+      <option value="haircut">Haircut</option>
+      <option value="shave">Shave</option>
+      <option value="facial">Facial</option>
+    </select>
+
+    <label for="name">Your Name:</label>
+    <input type="text" id="name" name="name" placeholder="Enter your name" required />
+
+    <label for="phone">Phone Number:</label>
+    <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required pattern="[0-9]{10}" />
+
+    <button type="submit">Proceed to Payment</button>
+  </form>
+
+  <script>
+    document.getElementById('serviceForm').addEventListener('submit', function (e) {
+  e.preventDefault();
+  const service = document.getElementById('service').value;
+  const name = document.getElementById('name').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+
+  if (!service || !name || !phone) {
+    alert('Please fill in all fields!');
+    return;
+  }
+
+  // Save data in localStorage (temporary storage in browser)
+  localStorage.setItem('salonService', service);
+  localStorage.setItem('customerName', name);
+  localStorage.setItem('customerPhone', phone);
+
+  // Redirect to payment page
+  window.location.href = 'payment.html';
+});
+
+  </script>
+</body>
+</html>

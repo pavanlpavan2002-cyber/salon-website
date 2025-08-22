@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Salon Payment</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 400px;
+      margin: 40px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 20px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      font-size: 18px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background-color: #528ff0;
+      color: white;
+    }
+    #simulateBtn {
+      background-color: #28a745; /* Green button for simulation */
+    }
+  </style>
+</head>
+<body>
+  <h2>Pay ₹100 for Salon Service</h2>
+  <button id="payBtn">Pay with Razorpay</button>
+  <button id="simulateBtn">Simulate Payment Success</button>
+
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script>
+    const options = {
+      key: 'rzp_test_R8S7AEQt9ZvKCZ', // Your Test Key ID
+      amount: 10000, // Amount in paise: 10000 paise = ₹100
+      currency: 'INR',
+      name: 'Salon Payment',
+      description: 'Payment for salon service',
+      handler: function (response) {
+        const service = localStorage.getItem('salonService');
+        const name = localStorage.getItem('customerName');
+        const paymentId = response.razorpay_payment_id;
+
+        // Redirect to confirmation page with info in URL
+        window.location.href = `confirmation.html?service=${encodeURIComponent(service)}&name=${encodeURIComponent(name)}&payment_id=${encodeURIComponent(paymentId)}`;
+      },
+      prefill: {
+        name: localStorage.getItem('customerName') || '',
+        contact: localStorage.getItem('customerPhone') || '',
+      },
+      theme: {
+        color: '#528ff0',
+      },
+    };
+
+    document.getElementById('payBtn').onclick = function () {
+      const rzp = new Razorpay(options);
+      rzp.open();
+    };
+
+    // Simulate payment success button click handler
+    document.getElementById('simulateBtn').onclick = function () {
+      const service = localStorage.getItem('salonService');
+      const name = localStorage.getItem('customerName');
+      // Using a dummy payment ID for simulation
+      const paymentId = 'SIMULATED_PAYMENT_12345';
+
+      // Redirect to confirmation page immediately
+      window.location.href = `confirmation.html?service=${encodeURIComponent(service)}&name=${encodeURIComponent(name)}&payment_id=${encodeURIComponent(paymentId)}`;
+    };
+  </script>
+</body>
+</html>
+

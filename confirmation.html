@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Payment Confirmation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 400px;
+      margin: 40px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      text-align: center;
+    }
+    h2 {
+      color: green;
+    }
+    p {
+      font-size: 18px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px 20px;
+      font-size: 16px;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Payment Successful!</h2>
+  <p id="message">Thank you for your payment. You are now in the queue.</p>
+  <p id="details"></p>
+  <button onclick="goHome()">Back to Home</button>
+
+  <script>
+    // Get URL parameters
+    const params = new URLSearchParams(window.location.search);
+    const service = params.get('service');
+    const name = params.get('name');
+    const paymentId = params.get('payment_id');
+
+    // Show details if available
+    if(service && name && paymentId){
+      document.getElementById('details').textContent =
+        `Name: ${name} | Service: ${service} | Payment ID: ${paymentId}`;
+    }
+
+    function goHome() {
+      window.location.href = 'index.html';
+    }
+  </script>
+</body>
+</html>
